@@ -1,17 +1,4 @@
-#!/usr/bin/env python3
-"""
-WigglyWoosh Activity Detection Pipeline
-Author: Anmol Panwar
-Description:
-    Fuses video optical-flow with IMU collar data to classify dog activity
-    (Active / Static) at 2 Hz, outputting a timeline.json.
 
-Usage:
-    python run_pipeline.py --video path/to/dog_video.mp4 --csv path/to/collar_imu.csv
-
-Requirements:
-    pip install opencv-python-headless numpy pandas
-"""
 
 import argparse
 import json
@@ -21,16 +8,16 @@ import pandas as pd
 import cv2
 
 
-# ─────────────────────────────────────────────────────────────────────────────
+
 # THRESHOLDS  (tuned on the provided 12-second sample)
-# ─────────────────────────────────────────────────────────────────────────────
-OPTICAL_FLOW_ACTIVE_THRESH = 0.45   # mean pixel displacement per frame pair
-GYRO_ACTIVE_THRESH         = 15.0   # deg/s  – mean magnitude over 500 ms window
-ACCEL_JERK_ACTIVE_THRESH   = 0.08   # g      – std of accel magnitude in window
+
+OPTICAL_FLOW_ACTIVE_THRESH = 0.45  
+GYRO_ACTIVE_THRESH         = 15.0   
+ACCEL_JERK_ACTIVE_THRESH   = 0.08   
 
 # Sensor-fusion weights (must sum to 1.0)
 VIDEO_WEIGHT = 0.45
-IMU_WEIGHT   = 0.55    # collar beats camera when they conflict
+IMU_WEIGHT   = 0.55    
 
 
 # ─────────────────────────────────────────────────────────────────────────────
